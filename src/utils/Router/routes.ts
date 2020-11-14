@@ -1,4 +1,5 @@
 import Home from '../../pages/Home';
+import Product from '../../pages/Product';
 
 const Routes = [
   {
@@ -11,7 +12,7 @@ const Routes = [
     path: '/product/:id',
     key: 'Product',
     exact: true,
-    component: Home,
+    component: Product,
   },
 ];
 
