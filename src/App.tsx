@@ -1,18 +1,9 @@
 import React from 'react';
+import Layout from './components/Layout/Layout';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        Header
-      </header>
-      <main>
-        proShop
-      </main>
-      <footer>
-        footer
-      </footer>
-    </div>
+    <Layout />
   );
 }
 
