@@ -1,17 +1,31 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router';
 import { Link } from 'react-router-dom';
 import {
   Row, Col, Image, ListGroup, Card, Button,
 } from 'react-bootstrap';
 import Rating from '../shared/Rating/Rating';
-import products from '../../products';
+import productsAPI from '../../api/products';
+import { Product as ProductType } from '../../types/product';
 
 const Product = () => {
+  const [productData, setProductData] = useState<null|ProductType>(null);
   const { id } = useParams();
+
+  useEffect(() => {
+    (async ():Promise<void> => {
+      const product = await productsAPI.getProductById(id);
+      setProductData(product);
+    })();
+  }, [id]);
+
+  if (!productData) {
+    return <p>Loading ...</p>;
+  }
+
   const {
-    name, image, rating, numReviews, price, description, countInStock,
-  } = products.find((singleProduct) => singleProduct.id === id);
+    name, imageURL, rating, numReviews, price, description, countInStock,
+  } = productData;
   return (
     <>
       <Link to="/">
@@ -19,7 +33,7 @@ const Product = () => {
       </Link>
       <Row>
         <Col sm={12} md={12} lg={6} className="mb-3">
-          <Image src={image} alt={name} fluid />
+          <Image src={`${process.env.REACT_APP_BACKEND_URL}${imageURL}`} alt={name} fluid />
         </Col>
         <Col sm={12} md={6} lg={3}>
           <ListGroup variant="flush">

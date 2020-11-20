@@ -2,15 +2,16 @@ import React, { FC } from 'react';
 import { Card } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import Rating from '../Rating/Rating';
+import { Product } from '../../../types/product';
 
-const ProductCard :FC<productProps> = ({ productData }:productProps) => {
+const ProductCard :FC<ProductProps> = ({ productData }:ProductProps) => {
   const {
-    id, name, image, price, rating, numReviews,
+    id, name, imageURL, price, rating, numReviews,
   } = productData;
   return (
     <Card className="my-3 rounded">
       <Link to={`/product/${id}`}>
-        <Card.Img src={image} variant="top" />
+        <Card.Img src={`${process.env.REACT_APP_BACKEND_URL}${imageURL}`} variant="top" />
       </Link>
       <Card.Body>
         <Link to={`/product/${id}`}>
@@ -29,18 +30,8 @@ const ProductCard :FC<productProps> = ({ productData }:productProps) => {
   );
 };
 
-interface productProps {
-    productData: {
-        id: string,
-        name: string,
-        image: string,
-        description: string,
-        brand: string,
-        price: number
-        countInStock: number,
-        rating: number,
-        numReviews: number,
-    }
+interface ProductProps {
+  productData: Product
 }
 
 export default ProductCard;
