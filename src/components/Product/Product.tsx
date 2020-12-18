@@ -14,8 +14,12 @@ const Product = () => {
 
   useEffect(() => {
     (async ():Promise<void> => {
-      const product = await productsAPI.getProductById(id);
-      setProductData(product);
+      try {
+        const product = await productsAPI.getProductById(id);
+        setProductData(product);
+      } catch (error) {
+        console.warn(error.message);
+      }
     })();
   }, [id]);
 
@@ -33,7 +37,7 @@ const Product = () => {
       </Link>
       <Row>
         <Col sm={12} md={12} lg={6} className="mb-3">
-          <Image src={`${process.env.REACT_APP_BACKEND_URL}${imageURL}`} alt={name} fluid />
+          <Image src={imageURL} alt={name} fluid />
         </Col>
         <Col sm={12} md={6} lg={3}>
           <ListGroup variant="flush">

@@ -11,7 +11,7 @@ const ProductCard :FC<ProductProps> = ({ productData }:ProductProps) => {
   return (
     <Card className="my-3 rounded">
       <Link to={`/product/${id}`}>
-        <Card.Img src={`${process.env.REACT_APP_BACKEND_URL}${imageURL}`} variant="top" />
+        <Card.Img src={imageURL} variant="top" />
       </Link>
       <Card.Body>
         <Link to={`/product/${id}`}>

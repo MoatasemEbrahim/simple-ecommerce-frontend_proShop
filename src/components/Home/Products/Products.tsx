@@ -8,8 +8,12 @@ const Products = () => {
   const [products, setProducts] = useState<Array<Product>>([]);
   useEffect(() => {
     (async ():Promise<void> => {
-      const newProducts = await productsAPI.getProducts();
-      setProducts(newProducts);
+      try {
+        const newProducts = await productsAPI.getProducts();
+        setProducts(newProducts || []);
+      } catch (error) {
+        console.warn(error.message);
+      }
     })();
   }, []);
   return (
