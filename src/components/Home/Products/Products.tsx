@@ -1,21 +1,35 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Row, Col } from 'react-bootstrap';
 import ProductCard from '../../shared/ProductCard/ProductCard';
-import productsAPI from '../../../api/products';
 import { Product } from '../../../types/product';
+import Loader from '../../shared/Loader/Loader';
+import Message from '../../shared/Message/Message';
+import { listProducts } from '../../../redux/actions/productsActions';
 
 const Products = () => {
-  const [products, setProducts] = useState<Array<Product>>([]);
+  const dispatch = useDispatch();
+  const productsList = useSelector((state) => state.productsList);
+  const { loading, error, products }:{
+    loading: boolean,
+    error?: string,
+    products:Array<Product>
+  } = productsList;
+
   useEffect(() => {
-    (async ():Promise<void> => {
-      try {
-        const newProducts = await productsAPI.getProducts();
-        setProducts(newProducts || []);
-      } catch (error) {
-        console.warn(error.message);
-      }
+    (async () => {
+      dispatch(listProducts);
     })();
-  }, []);
+  }, [dispatch]);
+
+  if (loading) {
+    return <Loader />;
+  }
+
+  if (error) {
+    return <Message variant="danger">{error}</Message>;
+  }
+
   return (
     <Row>
       {products.map((product) => (
