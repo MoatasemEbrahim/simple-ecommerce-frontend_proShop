@@ -5,7 +5,7 @@ import {
   PRODUCT_DETAILS_REQUEST,
   PRODUCT_DETAILS_SUCCESS,
   PRODUCT_DETAILS_FAIL,
-} from '../constants';
+} from '../constants/productConstants';
 import productsAPI from '../../api/products';
 
 export const listProducts = async (dispatch) => {

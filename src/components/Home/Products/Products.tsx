@@ -5,7 +5,7 @@ import ProductCard from '../../shared/ProductCard/ProductCard';
 import { Product } from '../../../types/product';
 import Loader from '../../shared/Loader/Loader';
 import Message from '../../shared/Message/Message';
-import { listProducts } from '../../../redux/actions/productsActions';
+import { listProducts } from '../../../redux/actions/productActions';
 
 const Products = () => {
   const dispatch = useDispatch();
