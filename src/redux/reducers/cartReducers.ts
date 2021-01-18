@@ -2,9 +2,10 @@ import { Reducer } from 'redux';
 import {
   CART_ADD_ITEM,
   CART_REMOVE_ITEM,
+  UPDATE_SHIPPING_ADDRESS,
 } from '../constants/cartConstants';
 
-export const cartReducers:Reducer = (state = { cartItems: [] }, action) => {
+const cartReducers:Reducer = (state = { cartItems: [], shippingAddress: {} }, action) => {
   switch (action.type) {
     case CART_ADD_ITEM: {
       const item = action.payload;
@@ -35,6 +36,12 @@ export const cartReducers:Reducer = (state = { cartItems: [] }, action) => {
       );
       return { ...state, cartItems: newCartItems };
     }
+
+    case UPDATE_SHIPPING_ADDRESS:
+      return {
+        ...state,
+        shippingAddress: action.payload,
+      };
 
     default:
       return state;
