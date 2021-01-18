@@ -36,7 +36,7 @@ const Cart = () => {
   }, [dispatch]);
 
   const handleCheckout = useCallback(() => {
-    history.push('/shipping');
+    history.push('/login?redirect=shipping');
   }, [history]);
 
   return (

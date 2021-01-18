@@ -4,33 +4,34 @@ import { Link } from 'react-router-dom';
 import {
   Row, Col, Image, ListGroup, Card, Button, Form,
 } from 'react-bootstrap';
-import { useSelector, useDispatch } from 'react-redux';
 import Rating from '../shared/Rating/Rating';
-// import { Product as ProductType } from '../../types/product';
-import { listProductDetails } from '../../redux/actions/productActions';
+import { Product as ProductType } from '../../types/product';
+import productsAPI from '../../api/products';
 import Loader from '../shared/Loader/Loader';
 import Message from '../shared/Message/Message';
 
 const Product = () => {
-  // const [productData, setProductData] = useState<null|ProductType>(null);
+  const [productData, setProductData] = useState<null|ProductType>(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
   const { id } = useParams();
   const history = useHistory();
-  const dispatch = useDispatch();
   const [qty, setQty] = useState(1);
 
-  const productDetails = useSelector((state) => state.productDetails);
-  const { product = {}, loading, error } = productDetails;
   useEffect(() => {
-    dispatch(listProductDetails(id));
-    // (async ():Promise<void> => {
-    //   try {
-    //     const product = await productsAPI.getProductById(id);
-    //     setProductData(product);
-    //   } catch (error) {
-    //     console.warn(error.message);
-    //   }
-    // })();
-  }, [id, dispatch]);
+    (async ():Promise<void> => {
+      setLoading(true);
+      try {
+        const product = await productsAPI.getProductById(id);
+        setProductData(product);
+        setLoading(false);
+      } catch (err) {
+        setError(err.message);
+        setLoading(false);
+        console.warn(err.message);
+      }
+    })();
+  }, [id]);
 
   const handleAddToCard = useCallback(() => {
     history.push(`/cart/${id}?qty=${qty}`);
@@ -42,7 +43,7 @@ const Product = () => {
 
   const {
     name, imageURL, rating, numReviews, price, description, countInStock,
-  } = product;
+  } = productData || {};
   return (
     <>
       <Link to="/">
