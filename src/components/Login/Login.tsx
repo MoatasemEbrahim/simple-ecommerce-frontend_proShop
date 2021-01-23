@@ -11,7 +11,7 @@ import * as yup from 'yup';
 import Message from '../shared/Message/Message';
 import Loader from '../shared/Loader/Loader';
 import { login, resetUserErrors } from '../../redux/actions/userActions';
-import FormContainer from '../FormContainer/FormContainer';
+import FormContainer from '../shared/FormContainer/FormContainer';
 
 const Login = () => {
   const { userInfo, loading, error: loginError } = useSelector((state) => state.userInfo);

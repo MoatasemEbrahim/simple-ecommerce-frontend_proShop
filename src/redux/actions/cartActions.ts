@@ -2,6 +2,8 @@ import {
   CART_ADD_ITEM,
   CART_REMOVE_ITEM,
   UPDATE_SHIPPING_ADDRESS,
+  UPDATE_PAYMENT_METHOD,
+  CART_RESET_ITEMS,
 } from '../constants/cartConstants';
 import productsAPI from '../../api/products';
 
@@ -39,6 +41,14 @@ export const removeFromCart = (id:string) => (dispatch, getState) => {
   localStorage.setItem('cartItems', JSON.stringify(getState().cart.cartItems));
 };
 
+export const resetCartItems = (dispatch) => {
+  dispatch({
+    type: CART_RESET_ITEMS,
+  });
+
+  localStorage.setItem('cartItems', JSON.stringify([]));
+};
+
 export const updateShippingAddress = (shippingAddress) => (dispatch) => {
   dispatch({
     type: UPDATE_SHIPPING_ADDRESS,
@@ -46,4 +56,13 @@ export const updateShippingAddress = (shippingAddress) => (dispatch) => {
   });
 
   localStorage.setItem('shippingAddress', JSON.stringify(shippingAddress));
+};
+
+export const updatePaymentMethod = (paymentMethod) => (dispatch) => {
+  dispatch({
+    type: UPDATE_PAYMENT_METHOD,
+    payload: paymentMethod,
+  });
+
+  localStorage.setItem('paymentMethod', JSON.stringify(paymentMethod));
 };

@@ -5,6 +5,8 @@ import Login from '../../pages/Login';
 import Register from '../../pages/Register';
 import Profile from '../../pages/Profile';
 import Shipping from '../../pages/Shipping';
+import Payment from '../../pages/Payment';
+import PlaceOrder from '../../pages/PlaceOrder';
 
 const Routes = [
   {
@@ -48,6 +50,18 @@ const Routes = [
     key: 'shipping',
     exact: true,
     component: Shipping,
+  },
+  {
+    path: '/payment',
+    key: 'payment',
+    exact: true,
+    component: Payment,
+  },
+  {
+    path: '/placeOrder',
+    key: 'payment',
+    exact: true,
+    component: PlaceOrder,
   },
 ];
 
