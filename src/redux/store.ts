@@ -21,7 +21,7 @@ const stringShippingAddress = localStorage.getItem('shippingAddress');
 const shippingAddress = stringShippingAddress ? JSON.parse(stringShippingAddress) : {};
 
 const initialState = {
-  cart: { cartItems, shippingAddress },
+  cart: { cartItems, shippingAddress, paymentMethod: 'PayPal' },
   userInfo: { userInfo },
 };
 

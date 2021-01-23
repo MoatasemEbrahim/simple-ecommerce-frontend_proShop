@@ -13,7 +13,7 @@ import * as yup from 'yup';
 import Message from '../shared/Message/Message';
 import Loader from '../shared/Loader/Loader';
 import { register, resetUserErrors } from '../../redux/actions/userActions';
-import FormContainer from '../FormContainer/FormContainer';
+import FormContainer from '../shared/FormContainer/FormContainer';
 
 const Register = () => {
   const [message, setMessage] = useState('');

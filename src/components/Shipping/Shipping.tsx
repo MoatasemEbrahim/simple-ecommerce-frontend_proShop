@@ -9,7 +9,8 @@ import { useFormik } from 'formik';
 import * as yup from 'yup';
 import { useHistory } from 'react-router';
 import { updateShippingAddress } from '../../redux/actions/cartActions';
-import FormContainer from '../FormContainer/FormContainer';
+import FormContainer from '../shared/FormContainer/FormContainer';
+import CheckoutSteps from '../shared/CheckoutSteps/CheckoutSteps';
 
 const Shipping = () => {
   const { userInfo } = useSelector((state) => state.userInfo);
@@ -56,6 +57,7 @@ const Shipping = () => {
   } = values;
   return (
     <FormContainer>
+      <CheckoutSteps step={1} />
       <h2>Shipping</h2>
       <Form onSubmit={handleSubmit}>
         <Form.Group controlId="address">

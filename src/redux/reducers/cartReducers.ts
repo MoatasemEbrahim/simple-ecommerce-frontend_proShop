@@ -3,6 +3,8 @@ import {
   CART_ADD_ITEM,
   CART_REMOVE_ITEM,
   UPDATE_SHIPPING_ADDRESS,
+  UPDATE_PAYMENT_METHOD,
+  CART_RESET_ITEMS,
 } from '../constants/cartConstants';
 
 const cartReducers:Reducer = (state = { cartItems: [], shippingAddress: {} }, action) => {
@@ -37,10 +39,19 @@ const cartReducers:Reducer = (state = { cartItems: [], shippingAddress: {} }, ac
       return { ...state, cartItems: newCartItems };
     }
 
+    case CART_RESET_ITEMS:
+      return { ...state, cartItems: [] };
+
     case UPDATE_SHIPPING_ADDRESS:
       return {
         ...state,
         shippingAddress: action.payload,
+      };
+
+    case UPDATE_PAYMENT_METHOD:
+      return {
+        ...state,
+        paymentMethod: action.payload,
       };
 
     default:
