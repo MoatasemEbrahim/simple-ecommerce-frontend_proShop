@@ -13,6 +13,7 @@ import {
   USER_UPDATE_FAIL,
   USER_ERROR_RESET,
 } from '../constants/userConstants';
+import { CART_RESET_ITEMS, RESET_SHIPPING_ADDRESS, RESET_PAYMENT_METHOD } from '../constants/cartConstants';
 import usersAPI from '../../api/users';
 
 export const login = (email:string, password:string) => async (dispatch) => {
@@ -34,8 +35,13 @@ export const logout = (historyObj) => async (dispatch) => {
     dispatch({ type: USER_LOGOUT_REQUEST });
     await usersAPI.logout();
     dispatch({ type: USER_LOGOUT_SUCCESS });
+    dispatch({ type: CART_RESET_ITEMS });
+    dispatch({ type: RESET_SHIPPING_ADDRESS });
+    dispatch({ type: RESET_PAYMENT_METHOD });
     historyObj.push('/');
     localStorage.removeItem('userInfo');
+    localStorage.removeItem('cartItems');
+    localStorage.removeItem('shippingAddress');
   } catch (error) {
     dispatch({
       type: USER_LOGOUT_FAIL,

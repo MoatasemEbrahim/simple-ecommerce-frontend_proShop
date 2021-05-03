@@ -12,6 +12,7 @@ import Message from '../shared/Message/Message';
 import Loader from '../shared/Loader/Loader';
 import { updateProfile, resetUserErrors } from '../../redux/actions/userActions';
 import ChangePassword from './ChangePassword/ChangePassword';
+import UserOrders from './Orders/Orders';
 
 const Profile = () => {
   const { userInfo, loading, error } = useSelector((state) => state.userInfo);
@@ -64,6 +65,9 @@ const Profile = () => {
   return (
     <>
       <Row>
+        <Col md={9}>
+          <UserOrders />
+        </Col>
         <Col md={3}>
           <h3>My Profile</h3>
           <div>
@@ -102,9 +106,6 @@ const Profile = () => {
               <Button className="p-0" variant="link" onClick={() => { setShowChangePassword(true); }}>Change password</Button>
             </Col>
           </Row>
-        </Col>
-        <Col md={9}>
-          <h3>My Orders</h3>
         </Col>
       </Row>
       {showChangePassword

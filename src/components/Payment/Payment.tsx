@@ -10,7 +10,7 @@ import * as yup from 'yup';
 import { useHistory } from 'react-router';
 import { updatePaymentMethod } from '../../redux/actions/cartActions';
 import FormContainer from '../shared/FormContainer/FormContainer';
-import CheckoutSteps from '../shared/CheckoutSteps/CheckoutSteps';
+import CheckoutSteps from '../shared/OrderDetails/CheckoutSteps/CheckoutSteps';
 
 const Payment = () => {
   const { userInfo } = useSelector((state) => state.userInfo);
@@ -34,7 +34,7 @@ const Payment = () => {
 
   const confirmPaymentMethod = useCallback(async ({ paymentMethod }) => {
     await dispatch(updatePaymentMethod(paymentMethod));
-    history.push('/placeOrder');
+    history.push('/order');
   }, [dispatch, history]);
 
   const validationSchema = useMemo(() => yup.object().shape({
