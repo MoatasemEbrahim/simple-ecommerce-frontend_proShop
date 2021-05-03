@@ -7,6 +7,7 @@ import Profile from '../../pages/Profile';
 import Shipping from '../../pages/Shipping';
 import Payment from '../../pages/Payment';
 import PlaceOrder from '../../pages/PlaceOrder';
+import CheckoutOrder from '../../pages/CheckoutOrder';
 
 const Routes = [
   {
@@ -58,8 +59,14 @@ const Routes = [
     component: Payment,
   },
   {
-    path: '/placeOrder',
-    key: 'payment',
+    path: '/order/:id',
+    key: 'checkoutOrder',
+    exact: true,
+    component: CheckoutOrder,
+  },
+  {
+    path: '/order',
+    key: 'placeOrder',
     exact: true,
     component: PlaceOrder,
   },

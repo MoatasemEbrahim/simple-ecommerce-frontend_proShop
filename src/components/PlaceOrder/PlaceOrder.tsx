@@ -1,16 +1,16 @@
-import React, { useCallback } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useMemo } from 'react';
 import {
-  Button, Row, Col, ListGroup, Image, Card,
+  Button, Row, Col, ListGroup, Card,
 } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
-import Message from '../shared/Message/Message';
-import CheckoutSteps from '../shared/CheckoutSteps/CheckoutSteps';
+import CheckoutSteps from '../shared/OrderDetails/CheckoutSteps/CheckoutSteps';
 import ordersAPI from '../../api/orders';
 import { resetCartItems } from '../../redux/actions/cartActions';
+import OrderItems from '../shared/OrderDetails/OrderItems/OrderItems';
+import OrderSummary from '../shared/OrderDetails/OrderSummary/OrderSummary';
 
-const PlaceOrderScreen = () => {
+const PlaceOrder = () => {
   const history = useHistory();
   const dispatch = useDispatch();
   const { cartItems, shippingAddress, paymentMethod } = useSelector((state) => state.cart);
@@ -21,15 +21,14 @@ const PlaceOrderScreen = () => {
     history.push('/payment');
   }
 
-  const addDecimals = useCallback((num) => (Math.round(num * 100) / 100).toFixed(2), []);
-
-  const itemsPrice = cartItems.reduce(
+  const itemsPrice = useMemo(() => cartItems?.reduce(
     (acc, item) => acc + item.price * item.qty, 0,
-  ) || 0;
+  ) || 0, [cartItems]);
 
-  const shippingPrice = itemsPrice > 100 ? 0 : 30;
-  const taxPrice = 0.14 * itemsPrice;
-  const totalPrice = addDecimals(itemsPrice + shippingPrice + taxPrice);
+  const shippingPrice = useMemo(() => (itemsPrice > 100 ? 0 : 30), [itemsPrice]);
+  const taxPrice = useMemo(() => 0.14 * itemsPrice, [itemsPrice]);
+  const totalPrice = useMemo(() => (itemsPrice + shippingPrice + taxPrice),
+    [itemsPrice, shippingPrice, taxPrice]);
 
   const placeOrderHandler = async () => {
     const orderData = {
@@ -67,19 +66,14 @@ const PlaceOrderScreen = () => {
             <ListGroup.Item>
               <h3>Shipping</h3>
               <p>
-                <strong>Address:</strong>
-                {shippingAddress?.address || ''}
-                ,
-                {' '}
-                {shippingAddress?.city || ''}
-                {' '}
-                {shippingAddress?.postalCode || ''}
-                ,
-                {' '}
-                {shippingAddress?.country || ''}
+                <strong>Address: </strong>
+                {`${shippingAddress?.address || ''},
+                 ${shippingAddress?.city || ''},
+                 ${shippingAddress?.postalCode || ''},
+                 ${shippingAddress?.country || ''}
+                `}
               </p>
             </ListGroup.Item>
-
             <ListGroup.Item>
               <h3>Payment Method</h3>
               <strong>Method: </strong>
@@ -87,89 +81,19 @@ const PlaceOrderScreen = () => {
             </ListGroup.Item>
 
             <ListGroup.Item>
-              <h3>Order Items</h3>
-              {cartItems.length === 0 ? (
-                <Message>Your cart is empty</Message>
-              ) : (
-                <ListGroup variant="flush">
-                  {cartItems.map((item) => (
-                    <ListGroup.Item key={item.productId}>
-                      <Row>
-                        <Col md={1}>
-                          <Image
-                            src={item.image}
-                            alt={item.name}
-                            fluid
-                            rounded
-                          />
-                        </Col>
-                        <Col>
-                          <Link to={`/product/${item.productId}`}>
-                            {item.name}
-                          </Link>
-                        </Col>
-                        <Col md={4}>
-                          {item.qty}
-                          {' '}
-                          x $
-                          {addDecimals(item.price)}
-                          {' '}
-                          = $
-                          {addDecimals(item.qty * item.price)}
-                        </Col>
-                      </Row>
-                    </ListGroup.Item>
-                  ))}
-                </ListGroup>
-              )}
+              <OrderItems items={cartItems} />
             </ListGroup.Item>
           </ListGroup>
         </Col>
         <Col md={4}>
           <Card>
             <ListGroup variant="flush">
-              <ListGroup.Item>
-                <h3>Order Summary</h3>
-              </ListGroup.Item>
-              <ListGroup.Item>
-                <Row>
-                  <Col>Items</Col>
-                  <Col>
-                    $
-                    {addDecimals(itemsPrice)}
-                  </Col>
-                </Row>
-              </ListGroup.Item>
-              <ListGroup.Item>
-                <Row>
-                  <Col>Shipping</Col>
-                  <Col>
-                    $
-                    {addDecimals(shippingPrice)}
-                  </Col>
-                </Row>
-              </ListGroup.Item>
-              <ListGroup.Item>
-                <Row>
-                  <Col>Tax</Col>
-                  <Col>
-                    $
-                    {addDecimals(taxPrice)}
-                  </Col>
-                </Row>
-              </ListGroup.Item>
-              <ListGroup.Item>
-                <Row>
-                  <Col>Total</Col>
-                  <Col>
-                    $
-                    {totalPrice}
-                  </Col>
-                </Row>
-              </ListGroup.Item>
-              <ListGroup.Item>
-                {/* {error && <Message variant="danger">{error}</Message>} */}
-              </ListGroup.Item>
+              <OrderSummary
+                itemsPrice={itemsPrice}
+                shippingPrice={shippingPrice}
+                taxPrice={taxPrice}
+                totalPrice={totalPrice}
+              />
               <ListGroup.Item>
                 <Button
                   type="button"
@@ -188,4 +112,4 @@ const PlaceOrderScreen = () => {
   );
 };
 
-export default PlaceOrderScreen;
+export default PlaceOrder;

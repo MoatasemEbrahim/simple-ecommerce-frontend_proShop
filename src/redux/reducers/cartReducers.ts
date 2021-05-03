@@ -5,6 +5,8 @@ import {
   UPDATE_SHIPPING_ADDRESS,
   UPDATE_PAYMENT_METHOD,
   CART_RESET_ITEMS,
+  RESET_SHIPPING_ADDRESS,
+  RESET_PAYMENT_METHOD,
 } from '../constants/cartConstants';
 
 const cartReducers:Reducer = (state = { cartItems: [], shippingAddress: {} }, action) => {
@@ -48,10 +50,22 @@ const cartReducers:Reducer = (state = { cartItems: [], shippingAddress: {} }, ac
         shippingAddress: action.payload,
       };
 
+    case RESET_SHIPPING_ADDRESS:
+      return {
+        ...state,
+        shippingAddress: '',
+      };
+
     case UPDATE_PAYMENT_METHOD:
       return {
         ...state,
         paymentMethod: action.payload,
+      };
+
+    case RESET_PAYMENT_METHOD:
+      return {
+        ...state,
+        paymentMethod: '',
       };
 
     default:
